@@ -110,7 +110,7 @@ public class MrNomGame extends GLGame
     {
         ScreenManager.SetGamepadInstance(OuyaController.getControllerByPlayer(OuyaController.getPlayerNumByDeviceId(event.getDeviceId())));
 
-       /* switch(ScreenManager.STATE)
+        switch(ScreenManager.STATE)
         {
             case ScreenManager.GAME_PAUSED:
 
@@ -132,38 +132,18 @@ public class MrNomGame extends GLGame
 
                 if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && event.getRepeatCount() == 0)
                 {
-                    if(!ScreenManager.isDemo)
-                    {
-                        if(ScreenManager.menu < 5)
-                            ScreenManager.menu++;
-                        else
-                            ScreenManager.menu = 0;
-                    }
+                    if(ScreenManager.menu < 5)
+                        ScreenManager.menu++;
                     else
-                    {
-                        if(ScreenManager.menu < 6)
-                            ScreenManager.menu++;
-                        else
-                            ScreenManager.menu = 0;
-                    }
+                        ScreenManager.menu = 0;
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_DPAD_UP && event.getRepeatCount() == 0)
                 {
-                    if(!ScreenManager.isDemo)
-                    {
-                        if(ScreenManager.menu > 0)
-                            ScreenManager.menu--;
-                        else
-                            ScreenManager.menu = 5;
-                    }
+                    if(ScreenManager.menu > 0)
+                        ScreenManager.menu--;
                     else
-                    {
-                        if(ScreenManager.menu > 0)
-                            ScreenManager.menu--;
-                        else
-                            ScreenManager.menu = 6;
-                    }
+                        ScreenManager.menu = 5;
                 }
 
                 break;
@@ -187,7 +167,7 @@ public class MrNomGame extends GLGame
 
                 if(keyCode == OuyaController.BUTTON_O)
                 {
-                    switch(ScreenManager.menu)
+                    /*switch(ScreenManager.menu)
                     {
                         case 0:
                             if(Settings.soundEnabled)
@@ -204,10 +184,10 @@ public class MrNomGame extends GLGame
                     }
 
                     Settings.save(getFileIO());
-                    Settings.load(getFileIO());
+                    Settings.load(getFileIO());*/
                 }
                 break;
-        }*/
+        }
 
         return OuyaController.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
     }
@@ -221,7 +201,7 @@ public class MrNomGame extends GLGame
             if (keyCode == OuyaController.BUTTON_O)
             {
                 // GAME IN MENU STATE
-                //ScreenManager.STATE = ScreenManager.GAME_MAINMENU;
+                ScreenManager.STATE = ScreenManager.GAME_MAINMENU;
 
                 MainMenuScreen menu = new MainMenuScreen(this);
                 setScreen(menu);

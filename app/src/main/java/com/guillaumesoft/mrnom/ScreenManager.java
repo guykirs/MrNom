@@ -1,9 +1,7 @@
 package com.guillaumesoft.mrnom;
 
-
 import android.view.Display;
 import com.badlogic.androidgames.framework.impl.GLGame;
-
 import tv.ouya.console.api.OuyaController;
 
 ////////////////////////////////////////////////////////////////////
@@ -12,6 +10,24 @@ import tv.ouya.console.api.OuyaController;
 ////////////////////////////////////////////////////////////////////
 public abstract class ScreenManager
 {
+    public static final int GAME_MAINMENU      = 1;
+    public static final int GAME_PLAYSCREEN    = 3;
+    public static final int GAME_READY         = 4;
+    public static final int GAME_RUNNING       = 5;
+    public static final int GAME_PAUSED        = 6;
+    public static final int GAME_LEVEL_END     = 7;
+    public static final int GAME_OVER          = 8;
+    public static final int GAME_CREDITSCREEN  = 9;
+    public static final int GAME_HELPSCREEN    = 10;
+    public static final int GAME_OPTIONSCREEN  = 11;
+    public static final int GAME_FAILSCREEN    = 12;
+    public static final int GAME_DEMO          = 13;
+    public static final int GAME_HIGHSCORE     = 14;
+
+    // SET THE GAME STATE
+    public static int STATE;
+
+
     ////////////////////////////////////////////////////////////////
     // GET THE GAME INSTANCE AND HOLD IT FOR OTHERE CLASSES
     public static GLGame GetGameInstances()
@@ -99,6 +115,8 @@ public abstract class ScreenManager
     }
 
     public static Display display;
+
+
 
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
