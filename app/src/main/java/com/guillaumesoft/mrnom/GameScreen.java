@@ -23,7 +23,8 @@ public class GameScreen extends Screen {
     int oldScore = 0;
     String score = "0";
     
-    public GameScreen(Game game) {
+    public GameScreen(Game game)
+    {
         super(game);
         world = new World();
     }
@@ -52,51 +53,67 @@ public class GameScreen extends Screen {
         int len = touchEvents.size();
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
-            if(event.type == TouchEvent.TOUCH_UP) {
-                if(event.x < 64 && event.y < 64) {
+            if(event.type == TouchEvent.TOUCH_UP)
+            {
+                if(event.x < 64 && event.y < 64)
+                {
                     if(Settings.soundEnabled)
-                        Assets.click.play(1);
+                        Assets.playSound(Assets.click);
+
                     state = GameState.Paused;
                     return;
                 }
             }
-            if(event.type == TouchEvent.TOUCH_DOWN) {
-                if(event.x < 64 && event.y > 416) {
+            if(event.type == TouchEvent.TOUCH_DOWN)
+            {
+                if(event.x < 64 && event.y > 416)
+                {
                     world.snake.turnLeft();
                 }
-                if(event.x > 256 && event.y > 416) {
+
+                if(event.x > 256 && event.y > 416)
+                {
                     world.snake.turnRight();
                 }
             }
         }
         
         world.update(deltaTime);
-        if(world.gameOver) {
+        if(world.gameOver)
+        {
             if(Settings.soundEnabled)
-                Assets.bitten.play(1);
+                Assets.playSound(Assets.bitten);
             state = GameState.GameOver;
         }
-        if(oldScore != world.score) {
+
+        if(oldScore != world.score)
+        {
             oldScore = world.score;
             score = "" + oldScore;
             if(Settings.soundEnabled)
-                Assets.eat.play(1);
+                Assets.playSound(Assets.eat);
         }
     }
     
-    private void updatePaused(List<TouchEvent> touchEvents) {
+    private void updatePaused(List<TouchEvent> touchEvents)
+    {
         int len = touchEvents.size();
-        for(int i = 0; i < len; i++) {
+        for(int i = 0; i < len; i++)
+        {
             TouchEvent event = touchEvents.get(i);
-            if(event.type == TouchEvent.TOUCH_UP) {
-                if(event.x > 80 && event.x <= 240) {
-                    if(event.y > 100 && event.y <= 148) {
+            if(event.type == TouchEvent.TOUCH_UP)
+            {
+                if(event.x > 80 && event.x <= 240)
+                {
+                    if(event.y > 100 && event.y <= 148)
+                    {
                         if(Settings.soundEnabled)
                             Assets.click.play(1);
                         state = GameState.Running;
                         return;
                     }                    
-                    if(event.y > 148 && event.y < 196) {
+                    if(event.y > 148 && event.y < 196)
+                    {
                         if(Settings.soundEnabled)
                             Assets.click.play(1);
                         game.setScreen(new MainMenuScreen(game));                        
@@ -107,13 +124,16 @@ public class GameScreen extends Screen {
         }
     }
     
-    private void updateGameOver(List<TouchEvent> touchEvents) {
+    private void updateGameOver(List<TouchEvent> touchEvents)
+    {
         int len = touchEvents.size();
-        for(int i = 0; i < len; i++) {
+        for(int i = 0; i < len; i++)
+        {
             TouchEvent event = touchEvents.get(i);
-            if(event.type == TouchEvent.TOUCH_UP) {
-                if(event.x >= 128 && event.x <= 192 &&
-                   event.y >= 200 && event.y <= 264) {
+            if(event.type == TouchEvent.TOUCH_UP)
+            {
+                if(event.x >= 128 && event.x <= 192 &&  event.y >= 200 && event.y <= 264)
+                {
                     if(Settings.soundEnabled)
                         Assets.click.play(1);
                     game.setScreen(new MainMenuScreen(game));
@@ -125,10 +145,11 @@ public class GameScreen extends Screen {
     
 
     @Override
-    public void present(float deltaTime) {
+    public void present(float deltaTime)
+    {
         Graphics g = game.getGraphics();
         
-        g.drawPixmap(Assets.background, 0, 0);
+        /*g.drawPixmap(Assets.background, 0, 0);
         drawWorld(world);
         if(state == GameState.Ready) 
             drawReadyUI();
@@ -137,12 +158,13 @@ public class GameScreen extends Screen {
         if(state == GameState.Paused)
             drawPausedUI();
         if(state == GameState.GameOver)
-            drawGameOverUI();
+            drawGameOverUI();*/
         
         drawText(g, score, g.getWidth() / 2 - score.length()*20 / 2, g.getHeight() - 42);                
     }
     
-    private void drawWorld(World world) {
+    /*private void drawWorld(World world)
+    {
         Graphics g = game.getGraphics();
         Snake snake = world.snake;
         SnakePart head = snake.parts.get(0);
@@ -211,7 +233,7 @@ public class GameScreen extends Screen {
         g.drawPixmap(Assets.gameOver, 62, 100);
         g.drawPixmap(Assets.buttons, 128, 200, 0, 128, 64, 64);
         g.drawLine(0, 416, 480, 416, Color.BLACK);
-    }
+    }*/
     
     public void drawText(Graphics g, String line, int x, int y) {
         int len = line.length();
@@ -233,29 +255,33 @@ public class GameScreen extends Screen {
                 srcWidth = 20;
             }
 
-            g.drawPixmap(Assets.numbers, x, y, srcX, 0, srcWidth, 32);
+           // g.drawPixmap(Assets.numbers, x, y, srcX, 0, srcWidth, 32);
             x += srcWidth;
         }
     }
     
     @Override
-    public void pause() {
+    public void pause()
+    {
         if(state == GameState.Running)
             state = GameState.Paused;
         
-        if(world.gameOver) {
+        if(world.gameOver)
+        {
             Settings.addScore(world.score);
             Settings.save(game.getFileIO());
         }
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
         
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         
     }
 }

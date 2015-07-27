@@ -58,8 +58,9 @@ public class MainMenuScreen extends Screen {
     }
 
     @Override
-    public void present(float deltaTime) {
-        Graphics g = game.getGraphics();
+    public void present(float deltaTime)
+    {
+      /*  Graphics g = game.getGraphics();
         
         g.drawPixmap(Assets.background, 0, 0);
         g.drawPixmap(Assets.logo, 32, 20);
@@ -67,7 +68,7 @@ public class MainMenuScreen extends Screen {
         if(Settings.soundEnabled)
             g.drawPixmap(Assets.buttons, 0, 416, 0, 0, 64, 64);
         else
-            g.drawPixmap(Assets.buttons, 0, 416, 64, 0, 64, 64);
+            g.drawPixmap(Assets.buttons, 0, 416, 64, 0, 64, 64);*/
     }
 
     @Override
