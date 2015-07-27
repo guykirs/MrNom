@@ -46,9 +46,9 @@ public class MainMenuScreen extends GLScreen
             {
                 case 0:
                     // PLAY SCREEN
-                   /* ScreenManager.STATE = ScreenManager.GAME_PLAYSCREEN;
+                    ScreenManager.STATE = ScreenManager.GAME_PLAYSCREEN;
                     GameScreen gamescreen = new GameScreen(game);
-                    game.setScreen(gamescreen);*/
+                    game.setScreen(gamescreen);
                     break;
 
                 case 1:

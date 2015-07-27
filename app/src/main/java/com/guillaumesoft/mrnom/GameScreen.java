@@ -1,24 +1,14 @@
 package com.guillaumesoft.mrnom;
 
 import java.util.List;
-
-import android.graphics.Color;
-
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-import com.badlogic.androidgames.framework.Pixmap;
-import com.badlogic.androidgames.framework.Screen;
+import com.badlogic.androidgames.framework.impl.GLScreen;
 
-public class GameScreen extends Screen {
-    enum GameState {
-        Ready,
-        Running,
-        Paused,
-        GameOver
-    }
-    
-    GameState state = GameState.Ready;
+public class GameScreen extends GLScreen
+{
+
     World world;
     int oldScore = 0;
     String score = "0";
@@ -30,28 +20,32 @@ public class GameScreen extends Screen {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(float deltaTime)
+    {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         game.getInput().getKeyEvents();
         
-        if(state == GameState.Ready)
+        if(ScreenManager.STATE == ScreenManager.GAME_READY)
             updateReady(touchEvents);
-        if(state == GameState.Running)
+        if(ScreenManager.STATE == ScreenManager.GAME_RUNNING)
             updateRunning(touchEvents, deltaTime);
-        if(state == GameState.Paused)
+        if(ScreenManager.STATE == ScreenManager.GAME_PAUSED)
             updatePaused(touchEvents);
-        if(state == GameState.GameOver)
+        if(ScreenManager.STATE == ScreenManager.GAME_OVER)
             updateGameOver(touchEvents);        
     }
     
-    private void updateReady(List<TouchEvent> touchEvents) {
+    private void updateReady(List<TouchEvent> touchEvents)
+    {
         if(touchEvents.size() > 0)
-            state = GameState.Running;
+            ScreenManager.STATE = ScreenManager.GAME_RUNNING;
     }
     
-    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {        
+    private void updateRunning(List<TouchEvent> touchEvents, float deltaTime)
+    {
         int len = touchEvents.size();
-        for(int i = 0; i < len; i++) {
+        for(int i = 0; i < len; i++)
+        {
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP)
             {
@@ -60,10 +54,11 @@ public class GameScreen extends Screen {
                     if(Settings.soundEnabled)
                         Assets.playSound(Assets.click);
 
-                    state = GameState.Paused;
+                    ScreenManager.STATE = ScreenManager.GAME_PAUSED;
                     return;
                 }
             }
+
             if(event.type == TouchEvent.TOUCH_DOWN)
             {
                 if(event.x < 64 && event.y > 416)
@@ -83,13 +78,15 @@ public class GameScreen extends Screen {
         {
             if(Settings.soundEnabled)
                 Assets.playSound(Assets.bitten);
-            state = GameState.GameOver;
+
+            ScreenManager.STATE = ScreenManager.GAME_OVER;
         }
 
         if(oldScore != world.score)
         {
             oldScore = world.score;
             score = "" + oldScore;
+
             if(Settings.soundEnabled)
                 Assets.playSound(Assets.eat);
         }
@@ -109,13 +106,15 @@ public class GameScreen extends Screen {
                     {
                         if(Settings.soundEnabled)
                             Assets.click.play(1);
-                        state = GameState.Running;
+
+                        ScreenManager.STATE = ScreenManager.GAME_RUNNING;
                         return;
                     }                    
                     if(event.y > 148 && event.y < 196)
                     {
                         if(Settings.soundEnabled)
                             Assets.click.play(1);
+
                         game.setScreen(new MainMenuScreen(game));                        
                         return;
                     }
@@ -147,7 +146,7 @@ public class GameScreen extends Screen {
     @Override
     public void present(float deltaTime)
     {
-        Graphics g = game.getGraphics();
+        //Graphics g = game.getGraphics();
         
         /*g.drawPixmap(Assets.background, 0, 0);
         drawWorld(world);
@@ -160,7 +159,7 @@ public class GameScreen extends Screen {
         if(state == GameState.GameOver)
             drawGameOverUI();*/
         
-        drawText(g, score, g.getWidth() / 2 - score.length()*20 / 2, g.getHeight() - 42);                
+       // drawText(g, score, g.getWidth() / 2 - score.length()*20 / 2, g.getHeight() - 42);
     }
     
     /*private void drawWorld(World world)
@@ -235,12 +234,15 @@ public class GameScreen extends Screen {
         g.drawLine(0, 416, 480, 416, Color.BLACK);
     }*/
     
-    public void drawText(Graphics g, String line, int x, int y) {
+    public void drawText(Graphics g, String line, int x, int y)
+    {
         int len = line.length();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++)
+        {
             char character = line.charAt(i);
 
-            if (character == ' ') {
+            if (character == ' ')
+            {
                 x += 20;
                 continue;
             }
@@ -263,8 +265,8 @@ public class GameScreen extends Screen {
     @Override
     public void pause()
     {
-        if(state == GameState.Running)
-            state = GameState.Paused;
+        if(ScreenManager.STATE == ScreenManager.GAME_RUNNING)
+            ScreenManager.STATE = ScreenManager.GAME_PAUSED;
         
         if(world.gameOver)
         {
